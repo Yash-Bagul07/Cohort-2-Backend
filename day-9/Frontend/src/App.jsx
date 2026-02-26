@@ -8,18 +8,18 @@ function App() {
 
   console.log("hello Integration")
 
-  function fetchNotes() {
+  function fetchNotes(){
     axios.get("https://cohort-2-backend-tyk6.onrender.com/api/notes")
       .then(res => {
         setNotes(res.data.notes)
       })
   } 
 
-  useEffect(() => {
+  useEffect(()=>{
     fetchNotes()
   }, [])
 
-  function handleSubmit(e) {
+  function handleSubmit(e){
     e.preventDefault()
 
     const { title, description } = e.target.elements
@@ -59,7 +59,7 @@ function App() {
   }
 
 
-  return (
+  return(
     <>
 
       <form className='note-create-form' onSubmit={handleSubmit}  >
