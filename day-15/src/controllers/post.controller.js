@@ -10,10 +10,10 @@ const imagekit = new ImageKit({
 async function createPostController(req,res){
     console.log(req.body, req.file);
 
-    const token = req.cookies.token
+    const token = req.cookies.token;
 
     if(!token){
-        res.status(401).json({
+       return res.status(401).json({
             message: "Token not provided : Unauthorized access"
         })
     }
@@ -30,8 +30,14 @@ async function createPostController(req,res){
 
     console.log(decoded);
 
+    if(!req.file){
+        return res.status(400).json({
+            message: "Image file is required"
+        })
+    }
+
     const file = await imagekit.files.upload({
-        file: await req.file.buffer.toString("base64"),
+        file:  req.file.buffer.toString("base64"),
         fileName: "Test",
         folder:"cohort-2-insta-clone-posts"
     })
@@ -93,7 +99,7 @@ async function getPostDetailsController(req,res){
     const userId = decoded.id;
     const postId = req.params.postId;
 
-    const post = await postModel.findOne(postId)
+    const post = await postModel.findById(postId)
 
     if(!post){
         return res.status(404).json({
